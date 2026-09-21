@@ -21,10 +21,13 @@ jobs:
 
       - name: Extract Android source
         run: |
-          rm -rf build-src
+          rm -rf build-src alpha03-source.zip
           mkdir -p build-src
-          unzip -q AlfaProAccounting-alpha02-reviewed-source.zip -d build-src
+          base64 --decode .sourcepayload/alpha03.b64 > alpha03-source.zip
+          unzip -q alpha03-source.zip -d build-src
           test -f build-src/AlfaProAccounting-reviewed-source/settings.gradle.kts
+          echo "Using alpha03 source payload"
+          sha256sum alpha03-source.zip
 
       - name: Upload extracted source snapshot
         uses: actions/upload-artifact@v4
@@ -114,7 +117,9 @@ jobs:
           EOF
           APPROOT="app/src/main/java/com/alhamlawi/accounting/ui/AppRoot.kt"
           if [ -f "$APPROOT" ]; then
-            sed -i '1i@file:OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)' "$APPROOT"
+            if ! grep -q '@file:OptIn' "$APPROOT"; then
+              sed -i '1i@file:OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)' "$APPROOT"
+            fi
             head -n 3 "$APPROOT"
           fi
           tail -n 35 app/build.gradle.kts
