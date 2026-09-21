@@ -25,6 +25,18 @@ jobs:
           unzip -q AlfaProAccounting-alpha02-reviewed-source.zip -d build-src
           test -f build-src/AlfaProAccounting-reviewed-source/settings.gradle.kts
 
+      - name: Show startup sources
+        working-directory: build-src/AlfaProAccounting-reviewed-source
+        run: |
+          echo "===== AndroidManifest.xml ====="
+          cat app/src/main/AndroidManifest.xml
+          echo "===== MainActivity.kt ====="
+          cat app/src/main/java/com/alhamlawi/accounting/MainActivity.kt
+          echo "===== AlHamlawiApp.kt ====="
+          cat app/src/main/java/com/alhamlawi/accounting/AlHamlawiApp.kt
+          echo "===== Startup-related references ====="
+          grep -RInE "Room\\.databaseBuilder|WorkManager|Application\\(|class .*App|onCreate\\(" app/src/main/java | head -n 200 || true
+
       - name: Set up JDK 17
         uses: actions/setup-java@v5
         with:
