@@ -130,7 +130,9 @@ jobs:
 
       - name: Build debug APK
         working-directory: build-src/AlfaProAccounting-reviewed-source
-        run: gradle :app:assembleDebug --stacktrace --no-daemon
+        run: |
+          mkdir -p app/schemas
+          gradle :app:assembleDebug --stacktrace --no-daemon
 
       - name: Android 12 launch smoke test
         uses: reactivecircus/android-emulator-runner@v2
