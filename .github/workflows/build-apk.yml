@@ -26,6 +26,13 @@ jobs:
           unzip -q AlfaProAccounting-alpha02-reviewed-source.zip -d build-src
           test -f build-src/AlfaProAccounting-reviewed-source/settings.gradle.kts
 
+      - name: Upload extracted source snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: AlfaProAccounting-source-snapshot
+          path: build-src/AlfaProAccounting-reviewed-source
+          if-no-files-found: error
+
       - name: Show startup sources
         working-directory: build-src/AlfaProAccounting-reviewed-source
         run: |
