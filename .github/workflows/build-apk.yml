@@ -1,4 +1,5 @@
 name: Build Android APK
+# lifecycle-alignment-smoke-test
 
 on:
   workflow_dispatch:
