@@ -88,9 +88,10 @@ jobs:
         with:
           gradle-version: '9.4.1'
 
-      - name: Pin AndroidX for API 36
+      - name: Pin dependencies for API 36
         working-directory: build-src/AlfaProAccounting-reviewed-source
         run: |
+          sed -i 's/sqlcipher-android:4.19.0/sqlcipher-android:4.17.0/g' app/build.gradle.kts
           cat >> app/build.gradle.kts <<'EOF'
 
           configurations.all {
