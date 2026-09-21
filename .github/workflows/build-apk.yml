@@ -92,6 +92,13 @@ jobs:
         working-directory: build-src/AlfaProAccounting-reviewed-source
         run: |
           sed -i 's/sqlcipher-android:4.19.0/sqlcipher-android:4.17.0/g' app/build.gradle.kts
+          sed -i 's/versionCode = 2/versionCode = 3/g; s/versionName = "1.0.0-alpha02"/versionName = "1.0.0-alpha03"/g' app/build.gradle.kts
+          APPROOT="app/src/main/java/com/alhamlawi/accounting/ui/AppRoot.kt"
+          SCREENS="app/src/main/java/com/alhamlawi/accounting/ui/Screens.kt"
+          grep -q 'androidx.compose.ui.unit.dp' "$APPROOT" || sed -i '/import androidx.compose.ui.platform.LocalContext/a import androidx.compose.ui.unit.dp' "$APPROOT"
+          sed -i 's/if(canWrite){{showForm=true}}else null/if(canWrite) ({ showForm=true }) else null/g' "$SCREENS"
+          sed -i 's/if(current?.role!=Roles.READER){{showForm=true}}else null/if(current?.role!=Roles.READER) ({ showForm=true }) else null/g' "$SCREENS"
+          sed -i 's/header:@Composable()->Unit={}/header: @Composable () -> Unit = {}/g' "$SCREENS"
           cat >> app/build.gradle.kts <<'EOF'
 
           configurations.all {
