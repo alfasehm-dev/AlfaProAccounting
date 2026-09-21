@@ -80,6 +80,16 @@ jobs:
 
           configurations.all {
               resolutionStrategy {
+                  eachDependency {
+                      if (requested.group == "androidx.lifecycle") {
+                          useVersion("2.8.7")
+                          because("Keep all Lifecycle artifacts binary-compatible")
+                      }
+                      if (requested.group == "androidx.activity") {
+                          useVersion("1.10.1")
+                          because("Keep all Activity artifacts binary-compatible")
+                      }
+                  }
                   force("androidx.core:core:1.16.0")
                   force("androidx.core:core-ktx:1.16.0")
                   force("androidx.activity:activity:1.10.1")
