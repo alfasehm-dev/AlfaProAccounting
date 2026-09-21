@@ -34,6 +34,12 @@ jobs:
           cat app/src/main/java/com/alhamlawi/accounting/MainActivity.kt
           echo "===== AlHamlawiApp.kt ====="
           cat app/src/main/java/com/alhamlawi/accounting/AlHamlawiApp.kt
+          echo "===== AppDatabase.kt ====="
+          cat app/src/main/java/com/alhamlawi/accounting/data/AppDatabase.kt
+          echo "===== AppRoot.kt ====="
+          cat app/src/main/java/com/alhamlawi/accounting/ui/AppRoot.kt
+          echo "===== AppViewModel.kt ====="
+          cat app/src/main/java/com/alhamlawi/accounting/ui/AppViewModel.kt
           echo "===== Startup-related references ====="
           grep -RInE "Room\\.databaseBuilder|WorkManager|Application\\(|class .*App|onCreate\\(" app/src/main/java | head -n 200 || true
 
