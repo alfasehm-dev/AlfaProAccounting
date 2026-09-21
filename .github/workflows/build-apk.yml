@@ -55,14 +55,25 @@ jobs:
         with:
           gradle-version: '9.4.1'
 
-      - name: Show build environment
+      - name: Pin AndroidX for API 36
+        working-directory: build-src/AlfaProAccounting-reviewed-source
         run: |
-          java -version
-          gradle --version
-          echo "ANDROID_HOME=$ANDROID_HOME"
-          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
-          ls -la "$ANDROID_HOME/platforms/android-36"
-          ls -la "$ANDROID_HOME/build-tools/36.0.0"
+          cat >> app/build.gradle.kts <<'EOF'
+
+          configurations.all {
+              resolutionStrategy {
+                  force("androidx.core:core:1.16.0")
+                  force("androidx.core:core-ktx:1.16.0")
+                  force("androidx.lifecycle:lifecycle-runtime:2.8.7")
+                  force("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+                  force("androidx.lifecycle:lifecycle-runtime-compose-android:2.8.7")
+                  force("androidx.lifecycle:lifecycle-viewmodel:2.8.7")
+                  force("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+                  force("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.8.7")
+              }
+          }
+          EOF
+          tail -n 30 app/build.gradle.kts
 
       - name: Build debug APK
         working-directory: build-src/AlfaProAccounting-reviewed-source
